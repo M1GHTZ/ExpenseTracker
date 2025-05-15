@@ -1,0 +1,76 @@
+{%extends 'base.html'%}
+
+{%block main_block%}
+
+    Welcome {{request.user}}
+    <a href="{%url 'signout'%}">Sign Out</a>
+    <div class="container">
+        <div class="w-25 border border-2 shadow mx-auto p-5">
+            <h4 class="fw-bold">Total Expense: {{total_expense}}</h4>
+        </div>
+        <div class="row mt-3">
+            <div class="col-4">
+                <h4 class="text_center fw-bold my-2">Summary</h4>
+                {%for summary in category_summary%}
+                    <div class="border round-pill p-2 mt-2 d-flex justify-content-around">
+                        <div>{{summary.categories}}</div>
+                        <div>{{summary.count}}</div>
+                        <div>{{summary.total}}</div>
+                    </div>
+                {%endfor%}
+            </div>
+            <div class="col-4">
+                <h4 class="text_center fw-bold my-2">Total</h4>
+                <canvas id="myChart"></canvas>
+            </div>
+            <div class="col-4">
+              <h4 class="text_center fw-bold my-2">Count</h4>
+                <canvas id="Chart2"></canvas>
+            </div>
+        </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<script>
+  const ctx = document.getElementById('myChart');
+
+  new Chart(ctx, {
+    type: 'pie',
+    data: {
+      labels: [{%for summary in category_summary%} '{{summary.categories}}', {%endfor%}],
+      datasets: [{
+        label: '# of Votes',
+        data: [{%for summary in category_summary%} {{summary.total}}, {%endfor%}],
+        borderWidth: 1
+      }]
+    },
+    options: {
+      scales: {
+        y: {
+          beginAtZero: true
+        }
+      }
+    }
+  });
+  const ctx1 = document.getElementById('Chart2');
+
+  new Chart(ctx1, {
+    type: 'bar',
+    data: {
+      labels: [{%for summary in category_summary%} '{{summary.categories}}', {%endfor%}],
+      datasets: [{
+        label: '# of Votes',
+        data: [{%for summary in category_summary%} {{summary.count}}, {%endfor%}],
+        borderWidth: 1
+      }]
+    },
+    options: {
+      scales: {
+        y: {
+          beginAtZero: true
+        }
+      }
+    }
+  });
+</script>
+{%endblock%}
