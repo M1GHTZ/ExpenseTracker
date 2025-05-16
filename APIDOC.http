@@ -1,0 +1,43 @@
+###
+POST http://127.0.0.1:8000/api/signup/
+Content-Type: application/json
+
+{
+    "username":"rest",
+    "email":"unwarlike2@gmail.com",
+    "password":"python123"
+}
+
+###
+GET http://127.0.0.1:8000/api/expenses/
+Authorization: Basic rest:python123
+
+###
+POST http://127.0.0.1:8000/api/expenses/
+Content-Type: application/json
+Authorization: Basic rest:python123
+
+{
+    "title":"Books",
+    "amount":500,
+    "categories":"Education"
+}
+
+###
+GET http://127.0.0.1:8000/api/expenses/5/
+Authorization: Basic rest:python123
+
+###
+PUT  http://127.0.0.1:8000/api/expenses/5/
+Content-Type: application/json
+Authorization: Basic rest:python123
+
+{   
+    "title":"Laptop",
+    "amount":50000,
+    "categories":"Education"
+}
+
+###
+GET  http://127.0.0.1:8000/api/expenses/summary/
+Authorization: Basic django:python123
